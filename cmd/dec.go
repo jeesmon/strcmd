@@ -28,7 +28,7 @@ var decCmd = &cobra.Command{
 
 // Copy from https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
 func dec(cmd *cobra.Command, args []string) {
-	key := []byte(fmt.Sprintf("%16v", encKey))
+	key := []byte(fmt.Sprintf("%32v", encKey))
 	enc, _ := hex.DecodeString(input)
 
 	//Create a new Cipher Block from the key

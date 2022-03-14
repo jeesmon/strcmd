@@ -30,7 +30,7 @@ var encCmd = &cobra.Command{
 // Copy from https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
 func enc(cmd *cobra.Command, args []string) {
 	//Since the key is in string, we need to convert it to bytes
-	key := []byte(fmt.Sprintf("%16v", encKey))
+	key := []byte(fmt.Sprintf("%32v", encKey))
 	plaintext := []byte(input)
 
 	//Create a new Cipher Block from the key
