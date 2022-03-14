@@ -23,12 +23,12 @@ var encCmd = &cobra.Command{
 	Use:   "enc",
 	Short: "Encrypt String",
 	Run: func(cmd *cobra.Command, args []string) {
-		enc(cmd, args)
+		fmt.Println(enc(encKey, input))
 	},
 }
 
 // Copy from https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
-func enc(cmd *cobra.Command, args []string) {
+func enc(encKey, input string) string {
 	//Since the key is in string, we need to convert it to bytes
 	key := []byte(fmt.Sprintf("%32v", encKey))
 	plaintext := []byte(input)
@@ -55,5 +55,5 @@ func enc(cmd *cobra.Command, args []string) {
 	//Encrypt the data using aesGCM.Seal
 	//Since we don't want to save the nonce somewhere else in this case, we add it as a prefix to the encrypted data. The first nonce argument in Seal is the prefix.
 	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
-	fmt.Printf("%x\n", ciphertext)
+	return fmt.Sprintf("%x", ciphertext)
 }

@@ -22,12 +22,12 @@ var decCmd = &cobra.Command{
 	Use:   "dec",
 	Short: "Decrypt String",
 	Run: func(cmd *cobra.Command, args []string) {
-		dec(cmd, args)
+		fmt.Println(dec(encKey, input))
 	},
 }
 
 // Copy from https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
-func dec(cmd *cobra.Command, args []string) {
+func dec(encKey, input string) string {
 	key := []byte(fmt.Sprintf("%32v", encKey))
 	enc, _ := hex.DecodeString(input)
 
@@ -55,5 +55,5 @@ func dec(cmd *cobra.Command, args []string) {
 		panic(err.Error())
 	}
 
-	fmt.Printf("%s\n", plaintext)
+	return fmt.Sprintf("%s", plaintext)
 }
