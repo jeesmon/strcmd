@@ -15,7 +15,6 @@ import (
 func init() {
 	encCmd.Flags().StringVar(&encKey, "key", os.Getenv("STRCMD_ENCRYPT_KEY"), "Hex encoded encryption key")
 	encCmd.Flags().StringVar(&input, "in", "", "Input string")
-	encCmd.MarkFlagRequired("key")
 	encCmd.MarkFlagRequired("in")
 	rootCmd.AddCommand(encCmd)
 }
@@ -23,8 +22,14 @@ func init() {
 var encCmd = &cobra.Command{
 	Use:   "enc",
 	Short: "Encrypt string",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if encKey == "" {
+			return fmt.Errorf("required flag(s) \"key\" not set")
+		}
+
 		fmt.Println(enc(encKey, input))
+
+		return nil
 	},
 }
 
