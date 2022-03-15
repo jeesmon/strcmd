@@ -13,7 +13,7 @@ const (
 
 var rootCmd = &cobra.Command{
 	Use:   "strcmd",
-	Short: "String Commands",
+	Short: "String commands",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Run with --help to find all commands")
 	},

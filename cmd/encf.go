@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	encfCmd.Flags().StringVar(&encKey, "key", os.Getenv("STRCMD_ENCRYPT_KEY"), "Encryption Key")
-	encfCmd.Flags().StringVar(&file, "file", "", "Input File")
+	encfCmd.Flags().StringVar(&encKey, "key", os.Getenv("STRCMD_ENCRYPT_KEY"), "Hex encoded encryption key")
+	encfCmd.Flags().StringVar(&file, "file", "", "Input file")
 	encfCmd.MarkFlagRequired("key")
 	encfCmd.MarkFlagRequired("file")
 	rootCmd.AddCommand(encfCmd)
@@ -19,7 +19,7 @@ func init() {
 
 var encfCmd = &cobra.Command{
 	Use:   "encf",
-	Short: "Encrypt String from a file",
+	Short: "Encrypt strings from a file",
 	Run: func(cmd *cobra.Command, args []string) {
 		b, err := ioutil.ReadFile(file)
 		if err != nil {

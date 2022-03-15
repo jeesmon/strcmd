@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
@@ -12,8 +13,8 @@ import (
 )
 
 func init() {
-	encCmd.Flags().StringVar(&encKey, "key", os.Getenv("STRCMD_ENCRYPT_KEY"), "Encryption Key")
-	encCmd.Flags().StringVar(&input, "in", "", "Input String")
+	encCmd.Flags().StringVar(&encKey, "key", os.Getenv("STRCMD_ENCRYPT_KEY"), "Hex encoded encryption key")
+	encCmd.Flags().StringVar(&input, "in", "", "Input string")
 	encCmd.MarkFlagRequired("key")
 	encCmd.MarkFlagRequired("in")
 	rootCmd.AddCommand(encCmd)
@@ -21,7 +22,7 @@ func init() {
 
 var encCmd = &cobra.Command{
 	Use:   "enc",
-	Short: "Encrypt String",
+	Short: "Encrypt string",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(enc(encKey, input))
 	},
@@ -29,8 +30,11 @@ var encCmd = &cobra.Command{
 
 // Copy from https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
 func enc(encKey, input string) string {
-	//Since the key is in string, we need to convert it to bytes
-	key := []byte(fmt.Sprintf("%32v", encKey))
+	key, err := hex.DecodeString(encKey)
+	if err != nil {
+		panic(err.Error())
+	}
+
 	plaintext := []byte(input)
 
 	//Create a new Cipher Block from the key
